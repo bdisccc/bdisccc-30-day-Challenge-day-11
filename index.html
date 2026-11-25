@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>
+   POSE! — The Digital Photo Booth
+  </title>
+<link href="styles.css" rel="stylesheet"/>
+</head>
+<body>
+<header>
+<span class="logo">
+    POSE!
+   </span>
+<small>
+    THE DIGITAL PHOTO BOOTH
+   </small>
+<button class="hidden" id="homeBtn">
+    Home
+   </button>
+</header>
+<main id="landing">
+<section class="hero">
+<div>
+<small>
+      THE LITTLE MOMENTS CLUB · 2026
+     </small>
+<h1>
+      Little moments.
+      <br/>
+<em>
+       Big memories.
+      </em>
+</h1>
+<p>
+      A nostalgic photo booth with a little magic. Strike a pose, trigger playful effects with your hands, and print a keepsake of your own.
+     </p>
+<button class="primary" id="enter">
+      Enter the solo booth →
+     </button>
+<div class="features">
+<span>
+       ✦ Gesture effects
+      </span>
+<span>
+       ♡ Custom frames
+      </span>
+<span>
+       ▣ Instant prints
+      </span>
+</div>
+<p class="hint">
+      Solo booth · still and live photo prints. Group booths are planned for later versions.
+     </p>
+</div>
+<div class="booth-art">
+<div class="curtain">
+<i>
+</i>
+<i>
+</i>
+</div>
+<div class="art-label">
+      POSE!
+      <br/>
+<small style="color:#f8e2b8;font:14px system-ui">
+       STEP INSIDE
+      </small>
+</div>
+</div>
+</section>
+</main>
+<main class="workspace" id="workspace">
+<div class="heading">
+<div>
+<h1>
+      The booth
+     </h1>
+<small>
+      Pick a layout, choose your effect, and smile.
+     </small>
+</div>
+<button id="cameraBtn">
+     Enable camera
+    </button>
+</div>
+<div class="columns">
+<section>
+<div class="window">
+<div class="titlebar">
+<i style="background:#ff605c">
+</i>
+<i style="background:#ffbd44">
+</i>
+<i style="background:#00ca4e">
+</i>
+<span>
+        Photo Booth
+       </span>
+</div>
+<div class="view">
+<video autoplay="" id="video" muted="" playsinline="">
+</video>
+<canvas height="720" id="live" width="960">
+</canvas>
+<canvas id="mapGuide" width="960" height="720" aria-hidden="true"></canvas>
+<canvas id="airGuide" width="960" height="720" aria-hidden="true"></canvas>
+<div aria-label="Selected prop" class="hidden" id="propBox">
+<span class="rotate" data-c="rotate" title="Rotate">
+         ↻
+        </span>
+<span class="handle" data-c="nw">
+</span>
+<span class="handle" data-c="ne">
+</span>
+<span class="handle" data-c="sw">
+</span>
+<span class="handle" data-c="se">
+</span>
+</div>
+<div class="curtain" id="curtain">
+<i>
+</i>
+<i>
+</i>
+</div>
+<div class="counter" id="count">
+</div>
+<div class="camera-status" id="status">
+        Camera off
+       </div>
+</div>
+<div class="film" id="film">
+</div>
+<div class="controls">
+<button id="uploadBtn">
+        Upload
+       </button>
+<button aria-label="Capture photograph" class="shutter" id="capture">
+        📷
+       </button>
+<button class="primary" disabled="" id="print">
+        Print
+       </button>
+</div>
+</div>
+<div class="error" id="error">
+</div>
+
+</section>
+<aside class="side">
+
+
+
+
+
+
+<nav aria-label="Booth tools" class="widget-grid"><button aria-expanded="false" data-widget="frames" type="button"><span aria-hidden="true">▤</span><small>Frames</small></button><button aria-expanded="false" data-widget="camera" type="button"><span aria-hidden="true">◉</span><small>Camera</small></button><button aria-expanded="false" data-widget="gestures" type="button"><span aria-hidden="true">✧</span><small>Gestures</small></button><button aria-expanded="false" data-widget="props" type="button"><span aria-hidden="true">◇</span><small>Props</small></button><button aria-expanded="false" data-widget="background" type="button"><span aria-hidden="true">▧</span><small>Background</small></button><button aria-expanded="false" data-widget="face" type="button"><span aria-hidden="true">☺</span><small>Face studio</small></button><button aria-expanded="false" data-widget="filters" type="button"><span aria-hidden="true">◐</span><small>Filters</small></button><button aria-expanded="false" data-widget="prints" type="button"><span aria-hidden="true">▣</span><small>Prints</small></button><button aria-expanded="false" data-widget="air" type="button"><span aria-hidden="true">✎</span><small>Air draw</small></button><button aria-expanded="false" data-widget="custom" type="button"><span>✦</span><small>Custom gestures</small></button></nav><div class="widget-content"><section class="panel" data-widget-panel="custom" hidden><div id="customComingSoon" class="coming-soon"><span class="coming-icon" aria-hidden="true">✦</span><p class="coming-kicker">COMING SOON · PHASE 7</p><h2>Custom Gesture Studio</h2><p>Something magical is in the works.</p><p class="hint">Create your own gestures, build multi-layer AR filters and bring your imagination to life. This studio is currently under construction.</p><p class="hint">Our built-in gesture effects, face painting and air drawing are still available.</p><button type="button" id="backToGestures">Explore gesture effects</button></div><div id="customDevTools" hidden><h2>Custom Gesture Studio</h2><p class="hint">Record a personal hand pose, attach an effect and trigger it on camera. Saved locally on this browser.</p><label class="line">Enable custom gestures <input id="cgEnabled" type="checkbox" checked></label><label>Name <input id="cgName" maxlength="50" placeholder="My magic pose"></label><button id="cgRecord">Record pose (2 sec)</button><p id="cgStatus" class="hint" aria-live="polite">Enable camera and tracking before recording.</p><label>Effect file (up to 2 MB)<input id="cgFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif,video/mp4,video/webm"></label><label class="line">Attach to <select id="cgAnchor"><option value="head">Above head</option><option value="face">Face</option><option value="mouth">Mouth</option><option value="hand">Hand</option><option value="screen">Screen</option></select></label><label class="line">Size <input id="cgSize" type="range" min="40" max="960" value="240"></label><label class="line">Duration (seconds) <input id="cgDuration" type="number" min="1" max="15" value="3"></label><label class="line">Animation <select id="cgMotion"><option value="none">Still</option><option value="float">Float</option><option value="pulse">Pulse</option><option value="spin">Spin</option></select></label><label class="line">Tolerance <input id="cgSensitivity" type="range" min="0.08" max="0.45" step="0.01" value="0.20"></label><button class="primary" id="cgSave">Save gesture</button><h2>My gestures</h2><div id="cgLibrary"></div><hr><div id="arStudio"></div></div></section><section class="panel" data-widget-panel="air" hidden><h2>Air Drawing Studio</h2><button class="primary" id="airToggle">Start air drawing</button><p class="hint" id="airStatus">Draw with either hand or your mouse.</p><label class="line">Motif guide <select id="airMotif"><option value="none">Free draw</option><option value="star">Star</option><option value="heart">Heart</option><option value="circle">Circle</option></select></label><label class="line">Brush <select id="airBrush"><option value="spray">Spray</option><option value="marker">Marker</option><option value="neon">Neon</option><option value="smoke">Smoke</option><option value="eraser">Eraser</option></select></label><label class="line">Color <input type="color" id="airColor" value="#ffe56b"></label><label class="line">Size <input type="range" id="airSize" min="3" max="45" value="14"></label><p class="hint">Index finger leads · Pinch to paint · Two extended fingers erase · Open palm pauses. Both hands supported. Other automatic gestures pause while drawing.</p><div class="air-actions"><button id="airUndo">Undo</button><button id="airRedo">Redo</button><button id="airClear">Clear</button><button id="airSave">Save ink PNG</button></div><p class="hint">Motif guides and fingertip cursors stay out of your photos. Ink remains when you finish drawing.</p></section><div class="panel" data-widget-panel="frames" hidden="">
+<h2>
+       Photos per frame
+      </h2>
+<details class="frame-designer"><summary>Advanced Frame Designer</summary>
+<label class="line">Starter template <select id="designTemplate"><option value="vintage">Vintage film</option><option value="coquette">Coquette</option><option value="chrome">Y2K chrome</option><option value="botanical">Botanical</option><option value="minimal">Minimalist</option><option value="blank">Blank canvas</option></select></label>
+<label class="line">Photo slots <select id="designCount"><option >1</option><option >2</option><option selected>3</option><option >4</option><option >5</option><option >6</option></select></label>
+<div class="studioTools"><label>Width <input id="designWidth" type="number" min="100" max="5000" step="1" style="width:85px"></label><label>Height <input id="designHeight" type="number" min="100" max="5000" step="1" style="width:85px"></label><button id="designDimensions">Resize canvas</button></div>
+<label class="line">Snap to alignment <input id="designSnap" type="checkbox" checked></label>
+<canvas id="designCanvas" aria-label="Editable frame preview"></canvas>
+<p class="hint">Drag any item to move it. Drag any corner handle to resize or the round top handle to rotate. Templates replace the current design.</p>
+<label class="line">Base background color <input id="designBg" type="color"></label>
+<label class="line">Base fill <select id="designGradientType"><option value="solid">Solid color</option><option value="linear">Linear gradient</option><option value="radial">Radial gradient</option></select></label>
+<div id="designGradientPanel" hidden>
+<div id="designGradientStops"></div><div class="studioTools"><button id="designGradientAdd" type="button">Add color stop</button><button id="designGradientReset" type="button">Reset gradient</button></div>
+<label class="line" id="designGradientAngleRow">Direction (degrees) <input id="designGradientAngle" type="range" min="0" max="360" value="90"></label>
+<label class="line">Horizontal center <input id="designGradientX" type="range" min="-50" max="50" value="0"></label>
+<label class="line">Vertical center <input id="designGradientY" type="range" min="-50" max="50" value="0"></label>
+<label class="line">Spread <input id="designGradientSpread" type="range" min="10" max="200" value="100"></label>
+<label class="line">Opacity <input id="designGradientOpacity" type="range" min="0" max="100" value="100"></label>
+<p class="hint">Adjust the gradient independently of uploaded background images. Stop positions are percentages.</p></div><p id="designObject" class="hint"></p>
+<div id="designLibrary" class="studioTools" aria-label="Built-in stickers"></div><div class="studioTools"><button id="designDetect">Detect photo openings</button></div><p class="hint">Select an uploaded frame overlay, then detect its enclosed transparent openings. This replaces existing photo slots (up to six).</p><div class="studioTools"><button id="designAddText">Add text</button><label class="design-upload">Upload decoration<input id="designSticker" type="file" accept="image/*"></label></div>
+<div class="studioTools"><label class="design-upload">Upload full frame PNG<input id="designOverlay" type="file" accept="image/*"></label><label class="design-upload">Upload paper background<input id="designBackground" type="file" accept="image/*"></label><button id="designBgRemove">Remove background</button></div>
+<label class="line">Background fit <select id="designBgFit"><option value="cover">Fill frame</option><option value="contain">Entire image</option></select></label><label class="line">Background zoom <input id="designBgZoom" type="range" min="100" max="400" value="100"></label><label class="line">Horizontal position <input id="designBgX" type="range" min="-100" max="100" value="0"></label><label class="line">Vertical position <input id="designBgY" type="range" min="-100" max="100" value="0"></label><label class="line">Background rotation <input id="designBgRotation" type="range" min="-180" max="180" value="0"></label><label class="line">Background opacity <input id="designBgOpacity" type="range" min="0" max="100" value="100"></label><button id="designBgReset" type="button">Reset background adjustments</button>
+<label class="line">Rotation (°) <input id="designRotation" type="number" min="-360" max="360" step="1" value="0"></label><button id="designRotateReset">Reset rotation</button>
+<label class="line">Text <input id="designText" maxlength="100"></label><label class="line">Ink <input id="designInk" type="color"></label><label class="line">Font <select id="designFont"><option>Georgia</option><option>Arial</option><option>Courier New</option><option>Verdana</option><option>Playfair Display</option><option>Quattrocento</option><option>Avant Garde</option><option>Oswald</option><option>Fjalla One</option><option>Libre Baskerville</option><option>Cormorant Garamond</option><option>Proza Libre</option><option>Cinzel</option><option>Sacramento</option><option>Josefin Sans</option><option>Montserrat</option><option>Roboto</option><option>Lora</option><option>Quicksand</option><option>Arvo</option><option>Abril Fatface</option><option>Poppins</option><option>Nixie One</option></select></label><label class="design-upload">Upload custom font (TTF, OTF, WOFF, WOFF2)<input id="designFontFile" type="file" accept=".ttf,.otf,.woff,.woff2"></label><p class="hint" id="designFontStatus">Avant Garde uses a locally installed font if available; otherwise Montserrat is used. Other listed fonts load online.</p><label class="line">Font size <input id="designSize" type="range" min="12" max="120"></label><label class="line">Photo fit <select id="designFit"><option value="contain">Entire photo</option><option value="cover">Fill slot</option></select></label>
+<div class="studioTools"><button id="designFront">Forward</button><button id="designBack">Backward</button><button id="designDelete">Delete decoration</button></div>
+<div class="studioTools"><button id="designSave">Save design</button><button id="designLoad">Load saved</button><button id="designExport">Export JSON</button><label class="design-upload">Import JSON<input id="designImport" type="file" accept=".json,application/json"></label></div>
+<label class="line">Use custom frame <input id="designEnabled" type="checkbox"></label><button class="primary" id="designApply">Apply frame</button><p class="hint" id="designStatus"></p></details>
+<div class="choices" id="layouts">
+</div>
+<div class="line">
+<span>
+        Layout
+       </span>
+<select id="layout">
+<option value="strip">
+         Vertical strip
+        </option>
+<option value="grid">
+         Grid
+        </option>
+</select>
+</div>
+<div class="line">
+<span>
+        Frame color
+       </span>
+<input id="color" type="color" value="#f4e7d0"/>
+</div>
+<div class="line">
+<span>
+        Caption
+       </span>
+<input id="caption" maxlength="40" style="width:145px" value="little moments ♡"/>
+</div>
+</div><div class="panel" data-widget-panel="camera" hidden="">
+<h2>
+       Camera
+      </h2>
+<div class="line">
+<span>
+        Countdown
+       </span>
+<select id="timer">
+<option value="0">
+         Instant
+        </option>
+<option selected="" value="3">
+         3 seconds
+        </option>
+<option value="5">
+         5 seconds
+        </option>
+</select>
+</div>
+<label class="line">
+       Mirror camera
+       <input checked="" id="mirror" type="checkbox"/>
+</label>
+
+<button id="reset">
+       Reset photos
+      </button>
+</div><div class="panel" data-widget-panel="gestures" hidden="">
+<h2>
+       Gesture magic
+      </h2>
+<button id="track">
+       Enable gesture tracking
+      </button>
+<p class="hint" id="trackStatus">
+       Optional · downloads tracking models on first use.
+      </p>
+<div class="choices" id="effects">
+<button data-effect="hearts">
+        ♡ Hearts
+       </button>
+<button data-effect="sparkles">
+        ✧ Sparkles
+       </button>
+<button data-effect="fog">
+        Fog glass
+       </button>
+<button data-effect="clear">
+        Clear
+       </button>
+</div>
+<label for="fogFingers">Fog drawing</label>
+<select id="fogFingers"><option value="index">Both index fingers</option><option value="all">All extended fingers</option></select>
+<p class="hint" id="fogStatus">Activate Fog glass to draw.</p>
+<p class="hint">
+       Gesture mode: move an open hand from your mouth outward for hearts; peace sign for sparkles; thumbs up to capture. Draw in fog with both index fingers or all extended fingers, or use the mouse. Other automatic gestures pause while fog is active. Manual effect buttons also work.
+      </p>
+</div><div class="panel" data-widget-panel="props" hidden="">
+<h2>
+       Creative props
+      </h2>
+<button id="propBtn">
+       Upload PNG / image
+      </button>
+<button id="clearProp">
+       Remove
+      </button>
+<p class="hint">
+       Select your image and drag its corners to resize. Drag the middle to move. Drag the round handle to rotate. Click outside to hide handles.
+      </p>
+<select aria-label="Select prop" id="layerList">
+</select>
+<div class="studioTools">
+<button id="selectProp">
+        Select
+       </button>
+<button id="duplicateProp">
+        Duplicate
+       </button>
+<button id="frontProp">
+        Bring forward
+       </button>
+<button id="backProp">
+        Send backward
+       </button>
+</div>
+<p class="hint" id="propDimensions">
+</p>
+</div><div class="panel" data-widget-panel="background" hidden="">
+<h2>
+       Background studio
+      </h2>
+<div class="studioTools">
+<button id="bgBtn">
+        Upload image
+       </button>
+<button id="bgVideoBtn">Upload video / GIF</button>
+<button id="bgClear">
+        Remove
+       </button>
+<button id="segmentBtn">
+        Enable person cutout
+       </button>
+</div>
+<p class="hint" id="bgStatus">
+       Background appears behind the camera subject when cutout is enabled.
+      </p>
+<label class="line">
+       Fit
+       <select id="bgFit">
+<option value="contain">
+         Entire image
+        </option>
+<option value="cover" selected>
+         Fill camera
+        </option>
+</select>
+</label>
+<label class="line">Zoom <input id="bgZoom" type="range" min="100" max="300" value="100"></label>
+<label class="line">Horizontal position <input id="bgX" type="range" min="-50" max="50" value="0"></label>
+<label class="line">Vertical position <input id="bgY" type="range" min="-50" max="50" value="0"></label>
+<label class="line">Rotation <input id="bgRotation" type="range" min="-180" max="180" value="0"></label>
+<label class="line">Blur <input id="bgBlur" type="range" min="0" max="30" value="0"></label>
+<label class="line">Brightness <input id="bgBrightness" type="range" min="30" max="180" value="100"></label>
+<label class="line">Opacity <input id="bgOpacity" type="range" min="0" max="100" value="100"></label>
+<div id="bgVideoControls" hidden>
+<button id="bgPlay">Play / pause</button>
+<label class="line">Speed <select id="bgSpeed"><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="1.5">1.5×</option><option value="2">2×</option></select></label>
+<label class="line">Loop <input id="bgLoop" type="checkbox" checked></label>
+<label class="line" id="bgMuteRow">Mute audio <input id="bgMute" type="checkbox" checked></label>
+</div><button id="bgReset">Reset background settings</button>
+</div><div class="panel" data-widget-panel="face" hidden="">
+<h2>
+       Face filter studio
+      </h2>
+<p class="hint" id="faceStatus">Enable your camera to detect a face.</p>
+<div class="studioTools"><button id="mapFace">Map my face</button><button id="mapReset">Remap &amp; clear art</button></div>
+<p class="hint" id="mapStatus">Look straight at the camera and map your face.</p>
+<label class="line">Show calibration portrait <input id="mapPortrait" type="checkbox" checked></label>
+<label class="line">Show landmarks <input id="mapPoints" type="checkbox"></label>
+<label class="line">Adjust landmarks <input id="mapEdit" type="checkbox"></label>
+<label class="line">Gesture-assisted adjustment <input id="mapGesture" type="checkbox"></label>
+<p class="hint">In adjust mode drag a landmark on the portrait, or pinch near its position on the camera and move it. Turn off adjust mode to paint.</p>
+<canvas height="320" id="facePad" width="320">
+</canvas>
+<div class="studioTools">
+<input aria-label="Brush color" id="ink" type="color" value="#ec6592"/>
+<input aria-label="Brush size" id="brush" max="28" min="2" type="range" value="7"/>
+<button id="eraseInk">
+        Eraser off
+       </button>
+<button id="undoInk">
+        Undo
+       </button>
+<button id="clearInk">
+        Clear
+       </button>
+</div>
+<label class="line">
+       Show on camera
+       <input checked="" id="showInk" type="checkbox"/>
+</label>
+<p class="hint">
+       Draw anywhere on the face guide. Tracking starts when the camera is enabled.
+      </p>
+</div><div class="panel" data-widget-panel="filters" hidden=""><h2>Color filters</h2><p class="hint">Choose a color treatment for your camera. Original preserves natural colors.</p><label class="line">
+       Color filter
+       <select id="filter">
+<option value="none">
+         Original
+        </option>
+<option value="sepia(.55)">
+         Vintage
+        </option>
+<option value="grayscale(1)">
+         Mono
+        </option>
+<option value="saturate(1.45)">
+         Vivid
+        </option>
+</select>
+</label></div><section class="printer panel" data-widget-panel="prints" hidden="" id="printer">
+<div class="machine">
+<div class="lens">
+</div>
+</div>
+<img alt="Finished photograph" class="paper" id="paper"/>
+<div id="printChoices">
+<button class="active-choice" id="stillPreview">
+        Still photo
+       </button>
+<button id="livePreview">
+        Live GIF
+       </button>
+</div>
+<button class="primary" id="download">
+       Download PNG
+      </button>
+<button disabled="" id="downloadGif">
+       Download GIF
+      </button>
+<button id="again">
+       New session
+      </button>
+<p class="hint" id="gifStatus">
+</p>
+</section><div class="empty-print" hidden="" id="emptyPrint"><span>▣</span><h2>Your prints appear here</h2><p>Capture your photos, then press Print to see your keepsake beside the camera.</p></div></div></aside>
+</div>
+</main>
+<input accept="image/*" hidden="" id="files" multiple="" type="file"/>
+<input accept="image/*" hidden="" id="propFile" multiple="" type="file"/>
+<input accept="image/*" hidden="" id="bgFile" type="file"/>
+<input accept="video/*,image/gif,.mp4,.webm" hidden id="bgVideoFile" type="file"/>
+<script src="app.js" type="module">
+</script>
+</body>
+</html>
